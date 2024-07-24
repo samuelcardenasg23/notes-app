@@ -20,4 +20,14 @@ class NoteRepository
     {
         return $note->delete();
     }
+
+    public function archive(Note $note): bool
+    {
+        return $note->update(['archived' => true]);
+    }
+
+    public function unarchive(Note $note): bool
+    {
+        return $note->update(['archived' => false]);
+    }
 }

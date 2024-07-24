@@ -34,4 +34,14 @@ class NoteService
     {
         return $this->noteRepository->delete($note);
     }
+
+    public function archive(Note $note): bool
+    {
+        return $this->noteRepository->archive($note);
+    }
+
+    public function unarchive(Note $note): bool
+    {
+        return $this->noteRepository->unarchive($note);
+    }
 }
