@@ -55,4 +55,25 @@ class NoteController extends Controller
 
         return response(status: 204);
     }
+
+    public function archive(Note $note)
+    {
+        $this->noteService->archive($note);
+
+        return response()->json($note);
+    }
+
+    public function unarchive(Note $note)
+    {
+        $this->noteService->unarchive($note);
+
+        return response()->json($note);
+    }
+
+    public function archived()
+    {
+        $notes = Note::where('archived', true)->paginate(10);
+
+        return response()->json($notes);
+    }
 }

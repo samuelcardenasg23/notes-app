@@ -9,3 +9,7 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::apiResource('notes', NoteController::class);
+
+Route::put('notes/{note}/archive', [NoteController::class, 'archive']);
+Route::put('notes/{note}/unarchive', [NoteController::class, 'unarchive']);
+Route::get('archived-notes', [NoteController::class, 'archived']);
