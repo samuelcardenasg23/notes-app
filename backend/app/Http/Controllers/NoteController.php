@@ -18,7 +18,7 @@ class NoteController extends Controller
 
     public function index()
     {
-        $notes = Note::paginate(10);
+        $notes = Note::with('categories')->paginate(10);
 
         return response()->json($notes);
     }
@@ -28,6 +28,7 @@ class NoteController extends Controller
         $note = $this->noteService->store(
             $request->validated('title'),
             $request->validated('content'),
+            $request->validated('category_ids') ?? [],
         );
 
         return response()->json($note);
@@ -35,6 +36,8 @@ class NoteController extends Controller
 
     public function show(Note $note)
     {
+        $note->load('categories');
+
         return response()->json($note);
     }
 
@@ -44,6 +47,7 @@ class NoteController extends Controller
             $note,
             $request->validated('title'),
             $request->validated('content'),
+            $request->validated('category_ids') ?? [],
         );
 
         return response()->json($note);
@@ -74,6 +78,12 @@ class NoteController extends Controller
     {
         $notes = Note::where('archived', true)->paginate(10);
 
+        return response()->json($notes);
+    }
+
+    public function filterByCategory(Request $request)
+    {
+        $notes = $this->noteService->filterByCategory($request->category_id);
         return response()->json($notes);
     }
 }

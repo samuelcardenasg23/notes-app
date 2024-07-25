@@ -30,4 +30,17 @@ class NoteRepository
     {
         return $note->update(['archived' => false]);
     }
+
+    public function attachCategories(Note $note, array $categoryIds)
+    {
+        $note->categories()->sync($categoryIds);
+    }
+
+    public function filterByCategory($categoryId)
+    {
+        return Note::whereHas('categories', function ($query) use ($categoryId) {
+            $query->where('category_id', $categoryId);
+        })->with('categories')->get();
+    }
+
 }
