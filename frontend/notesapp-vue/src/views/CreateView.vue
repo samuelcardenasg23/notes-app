@@ -70,7 +70,7 @@
                     response => {
                         this.categories = response.data.data
                     }
-                    ).catch(err => console.log(err.message));
+                ).catch(err => console.log(err.message));
             }
         }
     }
