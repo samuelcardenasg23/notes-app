@@ -1,3 +1,70 @@
 <template>
-    <h1>Edit</h1>
+    <div class="flex flex-col justify-center items-center">
+        <h1 class="mt-10 text-4xl font-bold text-center">Edit Note</h1>
+        <form @submit.prevent="store" class="mt-5 w-full max-w-lg mx-auto flex flex-col">
+            <input
+                class="p-3.5 rounded border-b border-gray-300 text-gray-900 outline-none"
+                type="text"
+                v-model="title"
+                id="title"
+                placeholder="Title"
+                required
+            />
+            <textarea
+                class="mt-5 p-3.5 rounded text-gray-900 outline-none"
+                type="text"
+                v-model="content"
+                id="content"
+                placeholder="Content"
+                required
+            />
+            <button class="bg-blue-500 hover:bg-blue-600 mt-5 py-2.5 rounded">Add Note</button>
+        </form>
+  </div>
 </template>
+
+<script>
+    import { show_alert, sendRequest } from '@/functions';
+    import { useRoute } from 'vue-router';
+    import axios from 'axios';
+
+    export default{
+        data(){
+            return {
+                id: 0,
+                title: '',
+                content: '',
+                url: 'http://127.0.0.1:8000/api/notes',
+            }
+        },
+        mounted() {
+            const route = useRoute()
+            this.id = route.params.id
+            this.url = this.url + '/' + this.id
+            this.getNote()
+        },
+        methods: {
+            getNote(){
+                axios.get(this.url).then(
+                    response => {
+                        this.title = response.data['title'],
+                        this.content = response.data['content']
+                    }
+                )
+            },
+            store() {
+                if (this.title.trim() === '') {
+                    show_alert('Add a title to the note', 'warning', 'title')
+                } else if(this.content.trim() === '') {
+                    show_alert('Add the content to the note', 'warning', 'content')
+                } else{
+                    const parameters = {
+                        title: this.title.trim(),
+                        content: this.content.trim(),
+                    }
+                    sendRequest('PUT', parameters, this.url, 'Note Updated!')
+                }
+            }
+        }
+    }
+</script>

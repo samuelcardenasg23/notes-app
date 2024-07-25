@@ -29,11 +29,6 @@ export function confirm(id) {
   }).then((result) => {
     if (result.isConfirmed) {
       sendRequest('DELETE', { id: id }, url, 'Note deleted successfully!')
-      // Swal.fire({
-      //   title: 'Deleted!',
-      //   text: 'Your file has been deleted.',
-      //   icon: 'success'
-      // })
     } else {
       show_alert('Canceled', 'info')
     }
@@ -47,7 +42,7 @@ export function sendRequest(method, parameters, url, message) {
     data: parameters
   })
     .then(function (response) {
-      if (response.status === 204) {
+      if (response.status === 204 || response.status === 200) {
         show_alert(message, 'success')
         window.setTimeout(function () {
           window.location.href = '/'
