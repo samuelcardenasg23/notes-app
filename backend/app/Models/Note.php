@@ -10,4 +10,9 @@ class Note extends Model
     use HasFactory;
 
     protected $fillable = ['title', 'content', 'archived'];
+
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class);
+    }
 }

@@ -5,6 +5,7 @@ import SignupView from '../views/SignupView.vue'
 import CreateView from '@/views/CreateView.vue'
 import EditView from '@/views/EditView.vue'
 import ArchivedNotesView from '@/views/ArchivedNotesView.vue'
+import CreateCategoryView from '@/views/CreateCategoryView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -38,6 +39,11 @@ const router = createRouter({
       path: '/archived-notes',
       name: 'archived',
       component: ArchivedNotesView
+    },
+    {
+      path: '/create-category',
+      name: 'create-category',
+      component: CreateCategoryView
     }
   ]
 })
