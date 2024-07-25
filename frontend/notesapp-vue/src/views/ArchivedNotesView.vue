@@ -10,20 +10,26 @@
                 Content
             </th>
             <th scope="col" class="px-6 py-3">
+                Category
+            </th>
+            <th scope="col" class="px-6 py-3">
                 Action
             </th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="note in notes" :key="note.id" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-            <!-- <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                {{note.title}}
-            </th> -->
             <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
               {{note.title}}
             </td>
             <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
               {{note.content}}
+            </td>
+            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+              <!-- Display categories for each note -->
+              <div v-for="category in note.categories" :key="category.id">
+                {{ category.name }}
+              </div>
             </td>
             <td class="px-6 py-4">
                 <button class="mr-5 font-medium text-white dark:text-white hover:underline" v-on:click="unarchiveNote(note.id)">Unarchive</button>

@@ -76,7 +76,7 @@ class NoteController extends Controller
 
     public function archived()
     {
-        $notes = Note::where('archived', true)->paginate(10);
+        $notes = Note::where('archived', true)->with('categories')->paginate(10);
 
         return response()->json($notes);
     }
