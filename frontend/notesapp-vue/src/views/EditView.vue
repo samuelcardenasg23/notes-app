@@ -28,7 +28,7 @@
                     {{ category.name }}
                 </option>
             </select>
-            <button class="bg-blue-500 hover:bg-blue-600 mt-5 py-2.5 rounded">Add Note</button>
+            <button class="bg-blue-500 hover:bg-blue-600 mt-5 py-2.5 rounded">Save</button>
         </form>
   </div>
 </template>
