@@ -55,6 +55,16 @@
       </tbody>
     </table>
   </div>
+  <!-- Pagination Controls -->
+  <div class="flex justify-center mt-5 mb-5">
+    <button :disabled="!pagination.prev_page_url" @click="getNotes(pagination.prev_page_url)" class="flex items-center justify-center px-3 h-8 me-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+      Previous
+    </button>
+    <span class="flex items-center justify-center px-3 h-8 me-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">{{ pagination.current_page }}</span>
+    <button :disabled="!pagination.next_page_url" @click="getNotes(pagination.next_page_url)" class="flex items-center justify-center px-3 h-8 me-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+      Next
+    </button>
+  </div>
 </template>
 
 <script>
@@ -68,6 +78,12 @@
         unarchivedNotes: null, 
         categories: [], 
         selectedCategory: '',
+        pagination: {
+          current_page: 1,
+          last_page: 1,
+          next_page_url: null,
+          prev_page_url: null
+        }
       }
     },
     computed: {
@@ -85,12 +101,19 @@
       this.getCategories()
     },
     methods:{
-      getNotes(){
-        axios.get('http://127.0.0.1:8000/api/notes').then(
+      getNotes(url = 'http://127.0.0.1:8000/api/notes'){
+        axios.get(url).then(
           response => {
             this.notes = response.data.data
             
             this.unarchivedNotes = this.notes.filter(note => !note.archived);
+
+            this.pagination = {
+              current_page: response.data.current_page,
+              last_page: response.data.last_page,
+              next_page_url: response.data.next_page_url,
+              prev_page_url: response.data.prev_page_url
+            }
           }
         ).catch(err => console.log(err.message));
       },
